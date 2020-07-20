@@ -1,0 +1,22 @@
+﻿---
+ID: "371b187b-798f-419c-b298-e7a0c6014f45"
+Parent: "fed592af-5c6f-457e-851e-1e92b4c5ad0c"
+Template: "fed592af-5c6f-457e-851e-1e92b4c5ad0c"
+Path: /sitecore/templates/Modules/Redirects/Enum/__Standard Values
+DB: master
+SharedFields:
+- ID: "5e6afd53-089f-4900-b393-7547083fc253"
+  Hint: Value
+  Value: $name
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20181009T072727Z
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\admin

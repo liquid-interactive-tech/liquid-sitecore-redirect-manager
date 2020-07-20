@@ -1,0 +1,35 @@
+﻿---
+ID: "a1507130-81c3-409e-94d7-e71578e8fd1c"
+Parent: "adb595f8-4997-42e1-9e10-30806eca1191"
+Template: "ab86861a-6030-46c5-b394-e8f99e8b87db"
+Path: /sitecore/templates/Modules/Redirects/Global Redirects Folder
+DB: master
+SharedFields:
+- ID: "06d5295c-ed2f-4a54-9bf2-26228d113318"
+  Hint: __Icon
+  Value: Network/32x32/earth_edit.png
+- ID: "1172f251-dad4-4efb-a329-0c63500e4f1e"
+  Hint: __Masters
+  Type: TreelistEx
+  Value: |
+    {232D252D-7E17-489A-B692-9BFEABB2689F}
+    {4F554D94-F449-429C-9DA0-187F316BC95E}
+    {57C61BB1-9B1E-4FCC-8CA0-CC580AF337F1}
+- ID: "12c33f3f-86c5-43a5-aeb4-5598cec45116"
+  Hint: __Base template
+  Type: tree list
+  Value: "{1930BBEB-7805-471A-A3BE-4858AC7CF696}"
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 900
+- ID: "f7d48a55-2158-4f02-9356-756654404f73"
+  Hint: __Standard values
+  Value: "{2FC1721B-D419-4652-87E8-6D53283482D7}"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20190507T042007Z

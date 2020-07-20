@@ -1,0 +1,22 @@
+﻿---
+ID: "fe49ca20-2921-48df-b120-dd8c278a89b4"
+Parent: "a69220d2-5970-4d07-b933-813d5e8cb75b"
+Template: "fed592af-5c6f-457e-851e-1e92b4c5ad0c"
+Path: /sitecore/system/Settings/Foundation/RedirectType/Redirect302
+DB: master
+SharedFields:
+- ID: "5e6afd53-089f-4900-b393-7547083fc253"
+  Hint: Value
+  Value: Redirect302
+Languages:
+- Language: en
+  Fields:
+  - ID: "b5e02ad9-d56f-4c41-a065-a133db87bdeb"
+    Hint: __Display name
+    Value: Temporary Redirect (HTTP 302)
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20181009T073040Z

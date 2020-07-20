@@ -1,0 +1,26 @@
+﻿---
+ID: "75d06352-e870-43ae-8ac0-6b985e99a1a6"
+Parent: "66ccda46-dd79-47bb-bbf8-b6f376e9321c"
+Template: "5b22c5b8-4513-4d25-b87f-2e0d24322bdd"
+Path: /sitecore/system/Modules/Redirects/website93/Path Redirect
+DB: master
+SharedFields:
+- ID: "01ed9875-e7a2-457d-bbaf-e8c0fb46adb1"
+  Hint: Source
+  Value: /page1
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20200625T214023Z
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin
+    - ID: "6840f1b4-fe2f-4790-948b-032cf40fb1fb"
+      Hint: Target
+      Value: |
+        <link text="" anchor="" linktype="internal" class="" title=""  querystring="" id="{FA4202E2-225F-48B8-914D-6177D0C75599}" />

@@ -1,0 +1,25 @@
+﻿---
+ID: "e127ef1d-deb8-4d15-b5bb-aec330cc7021"
+Parent: "8aa7e528-0336-480f-a779-711d75af6c09"
+Template: "4f554d94-f449-429c-9da0-187f316bc95e"
+Path: /sitecore/system/Modules/Redirects/Global Redirects/Redirect Map
+DB: master
+SharedFields:
+- ID: "3a32ff07-c588-4696-b512-3a553d1ad6a8"
+  Hint: UrlMapping
+  Value: %2fglobalpath2=%252f
+- ID: "57a41bca-df6e-45cd-80b1-a840df5ce724"
+  Hint: RedirectType
+  Value: Redirect302
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20200618T190932Z
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin

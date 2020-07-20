@@ -1,0 +1,14 @@
+﻿---
+ID: "a69220d2-5970-4d07-b933-813d5e8cb75b"
+Parent: "b284f1ad-4e68-4c9b-8d84-3a37e46dbac4"
+Template: "983b7159-2bef-4e32-b712-c3c78f8e3b53"
+Path: /sitecore/system/Settings/Foundation/RedirectType
+DB: master
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20181009T072541Z

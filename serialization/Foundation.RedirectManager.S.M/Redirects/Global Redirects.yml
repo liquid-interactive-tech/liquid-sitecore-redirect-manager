@@ -1,0 +1,14 @@
+﻿---
+ID: "8aa7e528-0336-480f-a779-711d75af6c09"
+Parent: "23f429ba-9bbf-4fdd-9bcd-1e7e46a0d029"
+Template: "a1507130-81c3-409e-94d7-e71578e8fd1c"
+Path: /sitecore/system/Modules/Redirects/Global Redirects
+DB: master
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20200618T190748Z

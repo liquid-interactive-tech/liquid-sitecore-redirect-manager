@@ -1,0 +1,26 @@
+﻿---
+ID: "8d09fb8d-ef54-4ffe-91ea-a7be7c1ae71e"
+Parent: "1d207731-cca3-4757-b2f8-f7c9bc4e540a"
+Template: "1d207731-cca3-4757-b2f8-f7c9bc4e540a"
+Path: /sitecore/templates/Modules/Redirects/Redirect Base Settings/Redirect Settings/__Standard Values
+DB: master
+SharedFields:
+- ID: "57a41bca-df6e-45cd-80b1-a840df5ce724"
+  Hint: RedirectType
+  Value: Redirect301
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20200617T193122Z
+    - ID: "3ca15495-0285-4f43-a665-9133256c12a5"
+      Hint: IgnoreCase
+      Type: Checkbox
+      Value: 1
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin

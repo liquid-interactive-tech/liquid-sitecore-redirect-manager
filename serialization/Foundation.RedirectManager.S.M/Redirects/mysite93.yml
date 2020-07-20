@@ -1,0 +1,22 @@
+﻿---
+ID: "50f6fe0d-53b9-43c9-90f3-f5b6fa99c8f4"
+Parent: "23f429ba-9bbf-4fdd-9bcd-1e7e46a0d029"
+Template: "a929258b-a9b9-4deb-8544-1e4f1ff568cf"
+Path: /sitecore/system/Modules/Redirects/mysite93
+DB: master
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20200624T204541Z
+    - ID: "57f23934-7be1-4447-8cf2-f424423f44ed"
+      Hint: Redirects include www
+      Type: Checkbox
+      Value: 1
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin

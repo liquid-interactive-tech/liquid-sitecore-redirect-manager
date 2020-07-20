@@ -1,0 +1,14 @@
+﻿---
+ID: "bcc1e13d-912f-4e7d-9640-d1aebcf0d9dd"
+Parent: "a69220d2-5970-4d07-b933-813d5e8cb75b"
+Template: "a87a00b1-e6db-45ab-8b54-636fec3b5523"
+Path: /sitecore/system/Settings/Foundation/RedirectType/WIP
+DB: master
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20200617T150925Z

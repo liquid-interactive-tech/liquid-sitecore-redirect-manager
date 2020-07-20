@@ -1,0 +1,14 @@
+﻿---
+ID: "5820179d-5f17-46b2-b703-db54c1852860"
+Parent: "a929258b-a9b9-4deb-8544-1e4f1ff568cf"
+Template: "e269fbb5-3750-427a-9149-7aa950b49301"
+Path: /sitecore/templates/Modules/Redirects/Site Redirects Settings/Site Redirects Settings
+DB: master
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20190507T042125Z

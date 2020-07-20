@@ -1,0 +1,22 @@
+﻿---
+ID: "1d207731-cca3-4757-b2f8-f7c9bc4e540a"
+Parent: "8488a390-2e9a-4823-ab90-b9aab31ac74b"
+Template: "ab86861a-6030-46c5-b394-e8f99e8b87db"
+Path: /sitecore/templates/Modules/Redirects/Redirect Base Settings/Redirect Settings
+DB: master
+SharedFields:
+- ID: "12c33f3f-86c5-43a5-aeb4-5598cec45116"
+  Hint: __Base template
+  Type: tree list
+  Value: "{1930BBEB-7805-471A-A3BE-4858AC7CF696}"
+- ID: "f7d48a55-2158-4f02-9356-756654404f73"
+  Hint: __Standard values
+  Value: "{8D09FB8D-EF54-4FFE-91EA-A7BE7C1AE71E}"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20200617T155127Z

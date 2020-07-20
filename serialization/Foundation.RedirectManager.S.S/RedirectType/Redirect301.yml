@@ -1,0 +1,22 @@
+﻿---
+ID: "e06bcd42-419c-4b03-a37f-3797e51e59cf"
+Parent: "a69220d2-5970-4d07-b933-813d5e8cb75b"
+Template: "fed592af-5c6f-457e-851e-1e92b4c5ad0c"
+Path: /sitecore/system/Settings/Foundation/RedirectType/Redirect301
+DB: master
+SharedFields:
+- ID: "5e6afd53-089f-4900-b393-7547083fc253"
+  Hint: Value
+  Value: Redirect301
+Languages:
+- Language: en
+  Fields:
+  - ID: "b5e02ad9-d56f-4c41-a065-a133db87bdeb"
+    Hint: __Display name
+    Value: Permanent Redirect (HTTP 301)
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20181009T073026Z

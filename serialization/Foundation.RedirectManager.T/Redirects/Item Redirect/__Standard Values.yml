@@ -1,0 +1,22 @@
+﻿---
+ID: "e518b69a-3709-48de-b942-24b41bdb9aa1"
+Parent: "e50cb564-88f7-44b4-bcf0-60e27e3055e8"
+Template: "e50cb564-88f7-44b4-bcf0-60e27e3055e8"
+Path: /sitecore/templates/Modules/Redirects/Item Redirect/__Standard Values
+DB: master
+SharedFields:
+- ID: "57a41bca-df6e-45cd-80b1-a840df5ce724"
+  Hint: RedirectType
+  Value: Redirect301
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20181009T070653Z
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\admin

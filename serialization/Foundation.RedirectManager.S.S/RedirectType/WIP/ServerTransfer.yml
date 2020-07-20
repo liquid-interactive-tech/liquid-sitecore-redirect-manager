@@ -1,0 +1,26 @@
+﻿---
+ID: "e09a9fca-42d5-4f5d-b04c-47b6febb746f"
+Parent: "bcc1e13d-912f-4e7d-9640-d1aebcf0d9dd"
+Template: "fed592af-5c6f-457e-851e-1e92b4c5ad0c"
+Path: /sitecore/system/Settings/Foundation/RedirectType/WIP/ServerTransfer
+DB: master
+SharedFields:
+- ID: "39c4902e-9960-4469-aeef-e878e9c8218f"
+  Hint: __Hidden
+  Type: Checkbox
+  Value: 1
+- ID: "5e6afd53-089f-4900-b393-7547083fc253"
+  Hint: Value
+  Value: ServerTransfer
+Languages:
+- Language: en
+  Fields:
+  - ID: "b5e02ad9-d56f-4c41-a065-a133db87bdeb"
+    Hint: __Display name
+    Value: Server Transfer
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20181009T073054Z

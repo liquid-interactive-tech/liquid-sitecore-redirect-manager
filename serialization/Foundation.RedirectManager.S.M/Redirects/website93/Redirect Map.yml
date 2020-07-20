@@ -1,0 +1,29 @@
+﻿---
+ID: "ef91bb4b-ab2d-4850-ba66-054d79a84491"
+Parent: "66ccda46-dd79-47bb-bbf8-b6f376e9321c"
+Template: "4f554d94-f449-429c-9da0-187f316bc95e"
+Path: /sitecore/system/Modules/Redirects/website93/Redirect Map
+DB: master
+SharedFields:
+- ID: "3a32ff07-c588-4696-b512-3a553d1ad6a8"
+  Hint: UrlMapping
+  Value: %2fabcd=%252fpage1%253ftest%253ddawdad&%5e%5c%2fkerfuffle(%5c%2f.*)%3f%24=%252fpage1&%2fefg=%252fpage2&%2fglobalpath2=%252fpage1&%2fvanityurl=https%253a%252f%252fwww.google.com%253ftestquery%253dtest&%2fpage7=%252fpage2&%2fPage8=%252fpage2&%2f
+- ID: "57a41bca-df6e-45cd-80b1-a840df5ce724"
+  Hint: RedirectType
+  Value: Redirect302
+- ID: "a15d77b0-f075-4b6e-8d9f-d406c69f1a8d"
+  Hint: PreserveQueryString
+  Type: Checkbox
+  Value: 1
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20200616T205828Z
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin

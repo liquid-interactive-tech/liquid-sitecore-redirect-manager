@@ -1,0 +1,26 @@
+﻿---
+ID: "57f23934-7be1-4447-8cf2-f424423f44ed"
+Parent: "5820179d-5f17-46b2-b703-db54c1852860"
+Template: "455a3e98-a627-4b40-8035-e683a0331ac7"
+Path: /sitecore/templates/Modules/Redirects/Site Redirects Settings/Site Redirects Settings/Redirects include www
+DB: master
+SharedFields:
+- ID: "ab162cc0-dc80-4abf-8871-998ee5d7ba32"
+  Hint: Type
+  Value: Checkbox
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 400
+Languages:
+- Language: en
+  Fields:
+  - ID: "9541e67d-ce8c-4225-803d-33f7f29f09ef"
+    Hint: __Short description
+    Value: |
+      Redirects incoming requests to the "www" equivalent of the requested domain before resolving any redirects. Only check this if your site's domain has bindings for both www and non www AND has both the www and non www set on your related <site> config!
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20200623T145415Z

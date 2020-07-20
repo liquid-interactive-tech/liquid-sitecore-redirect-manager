@@ -1,0 +1,14 @@
+﻿---
+ID: "23f429ba-9bbf-4fdd-9bcd-1e7e46a0d029"
+Parent: "08477468-d438-43d4-9d6a-6d84a611971c"
+Template: "58dbbc9b-10e7-45f3-8de1-4abf8feac886"
+Path: /sitecore/system/Modules/Redirects
+DB: master
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20181009T071355Z

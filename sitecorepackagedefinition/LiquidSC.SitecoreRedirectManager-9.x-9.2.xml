@@ -1,0 +1,237 @@
+<project>
+  <Metadata>
+    <metadata>
+      <PackageName>Liquid Sitecore Redirect Manager 9.x-9.2</PackageName>
+      <Author>Interactive Liquid LLC.</Author>
+      <Version>1.0</Version>
+      <Revision />
+      <License />
+      <Comment />
+      <Attributes />
+      <Readme># Liquid Sitecore Redirect Manager
+### A sitecore module by [Liquid Interactive](https://www.liquidint.com)
+Sitecore module for creating simple path to path, Sitecore item to Sitecore item, and path to Sitecore item redirects directly within the Sitecore CMS (no SXA required!). 
+
+This module supports the quick creation of common redirect needs such as:
+
+* Constructing vanity urls for your latest marketing campaign
+* Creating a redirect for your recently moved page(s)
+* Communicate existing redirects to content editors 
+
+All without a single config change and corresponding application pool recycle!
+
+## Features:
+
+The Liquid Sitecore Redirect Manager offers 3 different types of redirect templates that can be implemented and used by Editors and Admins alike within the Sitecore CMS:
+
+* **Item Redirect** - Point requests made to any Sitecore item with a url to a new destination (a different Sitecore item, an external url, or a media item). 
+  * Have one of those TreelistEx powered components that need to link to something other than a Sitecore item? Use this!
+* **Path Redirect** - Point any plain text path relative to the current domain to a new destination (a different Sitecore item, an external url, or a media item). Source can also support relative (must start with ^) regex pattern matching.
+    * Need rapidly make vanity urls for your latest marketing campaigns? Use this to make them happen in no time!
+* **Redirect Map** - Quickly generate the IIS equivalent of a rewrite map, using Source/Target plain text pairs relative to the current domain. Source can also support relative (must start with ^) regex pattern matching.
+    * Just moved and/or renamed a large group of Sitecore items and want to make sure their last known location is redirected from properly? This will cover that!
+
+All redirects support the choice of return a 301 (Permanent) or 302 (Temporary) and whether or not to preserve the incoming query string. 
+
+Redirects can be applied server-wide (agnostic of domain) or on a per site basis. This is determined by the placement of the redirect items.
+
+Redirects created as descendants of a Site Settings item will only be evaluated when the site connected to that item.
+
+Redirects can also be created in the "/sitecore/system/Modules/Global Redirects" folder. These redirects will be handled as "Global" redirects that are agnostic of the current request domain.
+
+## Requirements
+* Sitecore 9+
+
+## How to install:
+
+Download and install the package via the Sitecore Installation Wizard.
+
+*This module has not been tested for compatibility with SXA and it's own implementation of item-based redirects*.
+
+*This module makes use of a custom implementation of the Name Value List field type in order to allow for special characters in the "Name" column for Redirect Maps.*
+
+## How To Get Started
+
+1. Navigate to /sitecore/system/Modules/Redirects in the Content Editor and right click and insert a "Site Settings" item. For easy identification, 
+    * This will be the item that contains all the redirects for one of your Sitecore Sites
+    * Consider naming the item the equivalent of the name attribute of the \&lt;site&gt; you wish to associate with this set of redirects
+    * Make note of it's Item ID, and patch in an added attribute to the Sitecore &lt;site&gt; configuration node you want the redirects to apply to equal to ID. 
+    * Ex: \&lt;site name="website" redirectSettingsId="{66CCDA46-DD79-47BB-BBF8-B6F376E9321C}"/&gt;
+2. Right click on your Site Settings item and insert any of the redirect types, and fill in the neccesary details.
+3. Test in live mode and/or publish if neccesary and visit the path you designated as your source (if using an Item Redirect be sure to visit the resolved item url) and get redirected to your desired destination!</Readme>
+      <Publisher />
+      <PostStep />
+      <PackageID />
+    </metadata>
+  </Metadata>
+  <SaveProject>True</SaveProject>
+  <Sources>
+    <xfiles>
+      <Entries>
+        <x-item>/App_Config/Include/Foundation/LiquidSC.Foundation.CustomNameValueList.config</x-item>
+        <x-item>/App_Config/Include/Foundation/LiquidSC.Foundation.RedirectManager.config</x-item>
+      </Entries>
+      <Converter>
+        <FileToEntryConverter>
+          <Root>/</Root>
+          <Transforms />
+        </FileToEntryConverter>
+      </Converter>
+      <Include />
+      <Exclude />
+      <Name>Config</Name>
+    </xfiles>
+    <xfiles>
+      <Entries>
+        <x-item>/bin/LiquidSC.Foundation.CustomNameValueList.dll</x-item>
+        <x-item>/bin/LiquidSC.Foundation.RedirectManager.dll</x-item>
+      </Entries>
+      <Converter>
+        <FileToEntryConverter>
+          <Root>/</Root>
+          <Transforms>
+            <InstallerConfigurationTransform>
+              <Options>
+                <BehaviourOptions>
+                  <ItemMode>Undefined</ItemMode>
+                  <ItemMergeMode>Undefined</ItemMergeMode>
+                </BehaviourOptions>
+              </Options>
+            </InstallerConfigurationTransform>
+          </Transforms>
+        </FileToEntryConverter>
+      </Converter>
+      <Include />
+      <Exclude />
+      <Name>DLL</Name>
+    </xfiles>
+    <xitems>
+      <Entries>
+        <x-item>/core/sitecore/system/Field types/List Types/Custom Name Value List/{5ADDBC7B-0E19-40FA-99A3-2C4FEF73022A}/invariant/0</x-item>
+      </Entries>
+      <SkipVersions>False</SkipVersions>
+      <Converter>
+        <ItemToEntryConverter>
+          <Transforms>
+            <InstallerConfigurationTransform>
+              <Options>
+                <BehaviourOptions>
+                  <ItemMode>Undefined</ItemMode>
+                  <ItemMergeMode>Undefined</ItemMergeMode>
+                </BehaviourOptions>
+              </Options>
+            </InstallerConfigurationTransform>
+          </Transforms>
+        </ItemToEntryConverter>
+      </Converter>
+      <Include />
+      <Exclude />
+      <Name>Core Field</Name>
+    </xitems>
+    <xitems>
+      <Entries>
+        <x-item>/master/sitecore/system/Settings/Foundation/RedirectType/{A69220D2-5970-4D07-B933-813D5E8CB75B}/invariant/0</x-item>
+        <x-item>/master/sitecore/system/Settings/Foundation/RedirectType/Redirect301/{E06BCD42-419C-4B03-A37F-3797E51E59CF}/invariant/0</x-item>
+        <x-item>/master/sitecore/system/Settings/Foundation/RedirectType/Redirect302/{FE49CA20-2921-48DF-B120-DD8C278A89B4}/invariant/0</x-item>
+        <x-item>/master/sitecore/system/Settings/Foundation/RedirectType/WIP/{BCC1E13D-912F-4E7D-9640-D1AEBCF0D9DD}/invariant/0</x-item>
+        <x-item>/master/sitecore/system/Settings/Foundation/RedirectType/WIP/ServerTransfer/{E09A9FCA-42D5-4F5D-B04C-47B6FEBB746F}/invariant/0</x-item>
+      </Entries>
+      <SkipVersions>False</SkipVersions>
+      <Converter>
+        <ItemToEntryConverter>
+          <Transforms />
+        </ItemToEntryConverter>
+      </Converter>
+      <Include />
+      <Exclude />
+      <Name>Settings</Name>
+    </xitems>
+    <xitems>
+      <Entries>
+        <x-item>/master/sitecore/templates/Modules/Redirects/{ADB595F8-4997-42E1-9E10-30806ECA1191}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Advanced Redirect/__Standard Values/{8EC3629F-58FE-4037-9540-5F3CC1BAD56A}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Advanced Redirect/{F51C5C3B-55EF-46B9-8CC0-288DFBABF598}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Advanced Redirect/Redirect/{617942F1-27CE-4550-8296-FA497AAE6C06}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Advanced Redirect/Redirect/Source/{6E4B308E-F6FB-462D-A867-3C02FA7E1EF8}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Advanced Redirect/Redirect/Target/{6A00EE7C-67CF-4978-8712-2756D7D08964}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Enum/__Standard Values/{371B187B-798F-419C-B298-E7A0C6014F45}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Enum/{FED592AF-5C6F-457E-851E-1E92B4C5AD0C}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Enum/Enum/{5999C3E2-7DF4-47E5-B51A-58A2647155F2}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Enum/Enum/Value/{5E6AFD53-089F-4900-B393-7547083FC253}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Enums/__Standard Values/{BED35573-8BC2-4289-A1C1-402613C998EF}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Enums/{983B7159-2BEF-4E32-B712-C3C78F8E3B53}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Global Redirects Folder/__Standard Values/{2FC1721B-D419-4652-87E8-6D53283482D7}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Global Redirects Folder/{A1507130-81C3-409E-94D7-E71578E8FD1C}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Item Redirect/__Standard Values/{E518B69A-3709-48DE-B942-24B41BDB9AA1}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Item Redirect/{E50CB564-88F7-44B4-BCF0-60E27E3055E8}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Item Redirect/Redirect/{DF4E623A-A888-4DDB-BB12-F12A25FDC16D}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Item Redirect/Redirect/Source/{7AC02733-7BF2-44C4-B4FB-6FA065C6FDC6}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Item Redirect/Redirect/Target/{CA3C20D0-3313-45CB-98BF-321752DC3E63}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Path Redirect/__Standard Values/{F22B0F99-E935-4F00-A320-0BB1CCBB1068}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Path Redirect/{5B22C5B8-4513-4D25-B87F-2E0D24322BDD}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Path Redirect/Redirect/{78797C3E-4D23-40E2-B395-17845C71E59F}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Path Redirect/Redirect/Source/{01ED9875-E7A2-457D-BBAF-E8C0FB46ADB1}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Path Redirect/Redirect/Target/{6840F1B4-FE2F-4790-948B-032CF40FB1FB}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base Settings/{8488A390-2E9A-4823-AB90-B9AAB31AC74B}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base Settings/Redirect Settings/__Standard Values/{8D09FB8D-EF54-4FFE-91EA-A7BE7C1AE71E}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base Settings/Redirect Settings/{1D207731-CCA3-4757-B2F8-F7C9BC4E540A}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base Settings/Redirect Settings/Redirect Settings/{44DE5965-B9BB-4158-A834-0E2E43DE4CCF}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base Settings/Redirect Settings/Redirect Settings/IgnoreCase/{3CA15495-0285-4F43-A665-9133256C12A5}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base Settings/Redirect Settings/Redirect Settings/PreserveQueryString/{A15D77B0-F075-4B6E-8D9F-D406C69F1A8D}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base Settings/Redirect Settings/Redirect Settings/RedirectType/{57A41BCA-DF6E-45CD-80B1-A840DF5CE724}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base/{8746750D-72E6-4327-AD1A-63E89DCDBA6E}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base/Redirect Base/__Standard Values/{ED814269-F991-4951-8A94-396526808516}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Base/Redirect Base/{232D252D-7E17-489A-B692-9BFEABB2689F}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Map/__Standard Values/{2DCA83BD-F357-4D40-BEE1-23A4DD87B4E0}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Map/{4F554D94-F449-429C-9DA0-187F316BC95E}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Map/Redirect Map/{4CCF5B41-7F83-4A3D-9423-21A755ACC642}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirect Map/Redirect Map/UrlMapping/{3A32FF07-C588-4696-B512-3A553D1AD6A8}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirects Folder/__Standard Values/{7D237BE7-2DD1-471C-9474-D1582622B13F}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Redirects Folder/{57C61BB1-9B1E-4FCC-8CA0-CC580AF337F1}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Root Redirects Folder/__Standard Values/{07F35383-489A-4847-A750-779102602B36}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Root Redirects Folder/{58DBBC9B-10E7-45F3-8DE1-4ABF8FEAC886}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Site Redirects Settings/__Standard Values/{E8B8BA65-C87E-4AFE-B3A3-6E54B5160E98}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Site Redirects Settings/{A929258B-A9B9-4DEB-8544-1E4F1FF568CF}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Site Redirects Settings/Site Redirects Settings/{5820179D-5F17-46B2-B703-DB54C1852860}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Site Redirects Settings/Site Redirects Settings/Redirects force https protocol/{5330B523-F7C4-4B1B-B6EC-D5D51667EE46}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Site Redirects Settings/Site Redirects Settings/Redirects force lower case urls/{472A462F-D03A-4DFD-A3A2-681AAB47EA65}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Site Redirects Settings/Site Redirects Settings/Redirects force trailing slash/{0555B4E8-CDCC-42A7-BA1F-0D108FD7BE27}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Site Redirects Settings/Site Redirects Settings/Redirects include www/{57F23934-7BE1-4447-8CF2-F424423F44ED}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Site Redirects/__Standard Values/{0C7BEAC5-7DC4-4A33-B421-5FF006ACD7E0}/invariant/0</x-item>
+        <x-item>/master/sitecore/templates/Modules/Redirects/Site Redirects/{A338AD2E-89FE-49FE-832A-3B7F0889A1F1}/invariant/0</x-item>
+      </Entries>
+      <SkipVersions>False</SkipVersions>
+      <Converter>
+        <ItemToEntryConverter>
+          <Transforms />
+        </ItemToEntryConverter>
+      </Converter>
+      <Include />
+      <Exclude />
+      <Name>Templates</Name>
+    </xitems>
+    <xitems>
+      <Entries>
+        <x-item>/master/sitecore/system/Modules/Redirects/{23F429BA-9BBF-4FDD-9BCD-1E7E46A0D029}/invariant/0</x-item>
+        <x-item>/master/sitecore/system/Modules/Redirects/Global Redirects/{8AA7E528-0336-480F-A779-711D75AF6C09}/invariant/0</x-item>
+      </Entries>
+      <SkipVersions>False</SkipVersions>
+      <Converter>
+        <ItemToEntryConverter>
+          <Transforms />
+        </ItemToEntryConverter>
+      </Converter>
+      <Include />
+      <Exclude />
+      <Name>Redirects</Name>
+    </xitems>
+  </Sources>
+  <Converter>
+    <TrivialConverter>
+      <Transforms />
+    </TrivialConverter>
+  </Converter>
+  <Include />
+  <Exclude />
+  <Name />
+</project>

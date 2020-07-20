@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiquidSC.Foundation.RedirectManager", "website\LiquidSC.Foundation.RedirectManager.csproj", "{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{88D15DFD-CAA2-4478-9149-60872E67207D}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "binaries", "binaries", "{5DE90590-FEF6-4F55-8287-B6E13FA96338}"
+	ProjectSection(SolutionItems) = preProject
+		binaries\LiquidSC.Foundation.CustomNameValueList.dll = binaries\LiquidSC.Foundation.CustomNameValueList.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "downloads", "downloads", "{03E6BB09-C532-49B9-A20D-26D38CF9641A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sitecorepackagedefinition", "sitecorepackagedefinition", "{A0FBC5D7-39A8-41BA-9270-046757D08456}"
+	ProjectSection(SolutionItems) = preProject
+		sitecorepackagedefinition\LiquidSC.SitecoreRedirectManager-9.3-9.x.xml = sitecorepackagedefinition\LiquidSC.SitecoreRedirectManager-9.3-9.x.xml
+		sitecorepackagedefinition\LiquidSC.SitecoreRedirectManager-9.x-9.2.xml = sitecorepackagedefinition\LiquidSC.SitecoreRedirectManager-9.x-9.2.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9.x-9.2", "9.x-9.2", "{818BA16E-4FC5-4C0E-9F24-403C0AF34582}"
+	ProjectSection(SolutionItems) = preProject
+		downloads\9.x-9.2\Liquid Sitecore Redirect Manager 9.x-9.2-1.0.zip = downloads\9.x-9.2\Liquid Sitecore Redirect Manager 9.x-9.2-1.0.zip
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9.3-9.x", "9.3-9.x", "{EA8A757C-0EF9-44DE-8C42-1CFE2B5E23A8}"
+	ProjectSection(SolutionItems) = preProject
+		downloads\9.3-9.x\Liquid Sitecore Redirect Manager 9.3-9.x-1.0.zip = downloads\9.3-9.x\Liquid Sitecore Redirect Manager 9.3-9.x-1.0.zip
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		SC92 Debug|Any CPU = SC92 Debug|Any CPU
+		SC92 Release|Any CPU = SC92 Release|Any CPU
+		SC93 Debug|Any CPU = SC93 Debug|Any CPU
+		SC93 Release|Any CPU = SC93 Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.SC92 Debug|Any CPU.ActiveCfg = SC92 Debug|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.SC92 Debug|Any CPU.Build.0 = SC92 Debug|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.SC92 Release|Any CPU.ActiveCfg = SC92 Release|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.SC92 Release|Any CPU.Build.0 = SC92 Release|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.SC93 Debug|Any CPU.ActiveCfg = SC93 Debug|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.SC93 Debug|Any CPU.Build.0 = SC93 Debug|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.SC93 Release|Any CPU.ActiveCfg = SC93 Release|Any CPU
+		{AC2DC2CE-FF9C-4F38-841C-96FF7C8DA672}.SC93 Release|Any CPU.Build.0 = SC93 Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5DE90590-FEF6-4F55-8287-B6E13FA96338} = {88D15DFD-CAA2-4478-9149-60872E67207D}
+		{03E6BB09-C532-49B9-A20D-26D38CF9641A} = {88D15DFD-CAA2-4478-9149-60872E67207D}
+		{A0FBC5D7-39A8-41BA-9270-046757D08456} = {88D15DFD-CAA2-4478-9149-60872E67207D}
+		{818BA16E-4FC5-4C0E-9F24-403C0AF34582} = {03E6BB09-C532-49B9-A20D-26D38CF9641A}
+		{EA8A757C-0EF9-44DE-8C42-1CFE2B5E23A8} = {03E6BB09-C532-49B9-A20D-26D38CF9641A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA43FF2C-DA9C-48F5-A1EC-5F197E5D3B46}
+	EndGlobalSection
+EndGlobal
