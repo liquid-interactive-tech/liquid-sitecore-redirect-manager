@@ -1,4 +1,4 @@
-# Sitecore URL Redirect Manager
+# Liquid Sitecore URL Redirect Manager
 
 The URL Redirect Manager is a Sitecore plug-in that reduces wasted time and resources spent managing and troubleshooting URL redirects. Editors can now gain a stronger sense of control and ownership of their website development and management.
 
