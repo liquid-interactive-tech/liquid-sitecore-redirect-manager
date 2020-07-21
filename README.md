@@ -36,6 +36,33 @@ Download and install the package via the Sitecore Installation Wizard.
     * Ex: \<site name="website" redirectSettingsId="{66CCDA46-DD79-47BB-BBF8-B6F376E9321C}"/>
 2. Right click on your Site Settings item (or the Global folder), insert any of the redirect types, and fill in the necessary details.
 3. Test in live mode and/or publish if necessary and visit the path you designated as your source (if using an Item Redirect be sure to visit the item's URL as it would be resolved by Sitecore) and get redirected to your desired destination!
+   
+## Redirect types
+
+The Redirect Manager offers 3 different types of redirect templates that can be implemented and used by backend contributors:
+
+* **Item Redirect** - Point requests made to any Sitecore item with a URL to a new destination (a different Sitecore item, an external URL, or a media item). Target link inherits your link manager settings and customizations.
+* **Path Redirect** - Point any plain text path relative to the current domain to a new destination (a different Sitecore item, an external URL, or a media item). Source can also support relative (must start with ^) regex pattern matching. Target link inherits your link manager settings and customizations.
+* **Redirect Map** - Quickly generate the IIS equivalent of a rewrite map, using Source/Target plain text pairs relative to the current domain. Source can also support relative (must start with ^) regex pattern matching. Target is a plain text path.
+
+All redirects support the choice of return a 301 (Permanent) or 302 (Temporary) and whether or not to preserve the incoming query string. 
+
+Redirects can be applied server-wide (agnostic of domain) or on a per site basis. This is determined by the placement of the redirect items.
+
+Redirects created as descendants of a Site Settings item will only be evaluated when the site connected to that item.
+
+Redirects can also be created in the "/sitecore/system/Modules/Global Redirects" folder. These redirects will be handled as "Global" redirects that are agnostic of the current request domain.
+
+## Site Redirect Settings
+
+Using the optional Site Redirect Settings template as your site's redirect item container, you can set site-wide settings that alter incoming URLs to meet a consistent SEO friendly format of your choosing:
+
+  * Force www - force the incoming request's domain to be prepended with "www."
+  * Force trailing slash - force the incoming path part of the request to be appended with a "/"
+  * Force lowercase urls - force the incoming request to be all lowercase
+  * Force https - redirect incoming requests to https 
+    * *this is an application level redirect and is not a replacement for the server level handshake that must occur, therefore you must have your certificate and related binding set on your IIS server to use this. 
+    * If your application offloads SSL through devices such as load balancers, do not use this setting as they may send HTTP requests 
 
 ## How it works:
 
