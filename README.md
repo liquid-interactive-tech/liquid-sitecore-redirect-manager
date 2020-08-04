@@ -10,11 +10,11 @@ The URL Redirect Manager plug-in provides the following features:
 
 * Rapid creation of server-wide and site-specific redirects, including vanity URLs
 * Dynamic Sitecore webpage redirecting
-* Customization for all redirects include:
-* Permanent and Temporary status codes
-* Query string preservation support
-* Ability to match incoming requests based on patterns
 * Site specific request formatting to redirect and reformat incoming URLs for improved SEO
+* Customization for all redirects include:
+  * Permanent and Temporary status codes
+  * Query string preservation support
+  * Ability to match incoming requests based on patterns
 
 ## Requirements
 * Sitecore 9+
