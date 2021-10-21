@@ -9,6 +9,8 @@ using Sitecore.Links.UrlBuilders;
 #endif
 using Sitecore.Pipelines.HttpRequest;
 using Sitecore.Resources.Media;
+using Sitecore.Sites;
+using Sitecore.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -287,6 +289,8 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
 
         protected virtual void GetPreservedQueryString(Redirect resolvedMapping)
         {
+            // Prevent query string from being repeatedly (re)appended
+            resolvedMapping.Target = Regex.Split(resolvedMapping.Target, @"[\?\#]")[0];
             if (resolvedMapping.PreserveQueryString && Context.Request.QueryString.Count > 0)
             {
                 var sourceQueryStringList = new List<string>();
@@ -341,7 +345,7 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
                         var urlOptions = LinkManager.GetDefaultUrlOptions();
 #endif
                  
-                        //potential alternative appaorach reflection based approach kept for study and reference
+                        //potential alternative approach reflection based approach kept for study and reference
                         //to avoid having to create multiple configurations and use preprocessor directives to determine which class type to use, instead we check if the assembly exists as an all-in-one solution
                         //performance impact of this is unknown
                         //9.3
@@ -358,7 +362,20 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
                         urlOptions.AlwaysIncludeServerUrl = true;
                         urlOptions.SiteResolving = true;
 
-                        redirectUrl = LinkManager.GetItemUrl(redirectLinkField.TargetItem, urlOptions);
+                        // Switch to relevant site to resolve target link, if needed
+                        if (IsFromCurrentSite(redirectLinkField.TargetItem))
+                        {
+                            redirectUrl = LinkManager.GetItemUrl(redirectLinkField.TargetItem, urlOptions);
+                            Sitecore.Diagnostics.Log.Info($"Is from current site: {redirectUrl}.", this);
+                        }
+                        else
+                        {
+                            var website = GetSiteContext(redirectLinkField.TargetItem);
+                            using (new SiteContextSwitcher(website))
+                            {
+                                redirectUrl = LinkManager.GetItemUrl(redirectLinkField.TargetItem, urlOptions);
+                            }
+                        }
 
                         //getitemurl appears to produce double trailing slashes for cross site links, clean that up
                         redirectUrl = new UriBuilder(redirectUrl)
@@ -389,32 +406,65 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
             return redirectUrl;
         }
 
-        protected virtual void Redirect301(HttpResponse response, string url)
+        private static bool IsFromCurrentSite(Item item)
+        {
+            return item.Paths.FullPath.StartsWith(Context.Site.StartPath, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static SiteContext GetSiteContext(Item item)
+        {
+            var site = GetSites().LastOrDefault(s => item.Paths.FullPath.ToLower().StartsWith(s.Key.ToLower()));
+            return site.Value;
+        }
+
+        private static IEnumerable<KeyValuePair<string, SiteContext>> GetSites()
+        {
+            return SiteManager.GetSites()
+                .Where(
+                    s =>
+                        !string.IsNullOrEmpty(s.Properties["rootPath"]) &&
+                        !string.IsNullOrEmpty(s.Properties["startItem"])).Select(
+                    d => new KeyValuePair<string, SiteContext>(
+                        $"{d.Properties["rootPath"]}{d.Properties["startItem"]}",
+                        new SiteContext(new SiteInfo(d.Properties)))).ToList();
+        }
+
+        protected virtual void Redirect301(HttpContext context, string url)
         {
             HttpCookieCollection httpCookieCollection = new HttpCookieCollection();
-            for (int i = 0; i < response.Cookies.Count; i++)
+            for (int i = 0; i < context.Response.Cookies.Count; i++)
             {
-                HttpCookie item = response.Cookies[i];
+                HttpCookie item = context.Response.Cookies[i];
                 if (item != null)
                 {
                     httpCookieCollection.Add(item);
                 }
             }
-            response.Clear();
+            context.Response.Clear();
             for (int j = 0; j < httpCookieCollection.Count; j++)
             {
                 HttpCookie httpCookie = httpCookieCollection[j];
                 if (httpCookie != null)
                 {
-                    response.Cookies.Add(httpCookie);
+                    context.Response.Cookies.Add(httpCookie);
                 }
             }
 
-            response.Status = "301 Moved Permanently";
-            response.StatusCode = (int)HttpStatusCode.MovedPermanently;
-            response.AppendHeader("Location", url);
-            response.Flush();
-            response.End();
+            context.Response.Status = "301 Moved Permanently";
+            context.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
+            context.Response.AppendHeader("Location", url);
+            context.Response.Flush();
+
+            // Complete the request rather than ending the response to avoid System.Threading.ThreadAbortException on redirecting
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
+        }
+        
+        protected virtual void Redirect302(HttpContext context, string url)
+        {
+            context.Response.Redirect(url, false);
+
+            // Complete the request rather than ending the response to avoid System.Threading.ThreadAbortException on redirecting
+            context.ApplicationInstance.CompleteRequest();
         }
 
         protected static bool IsValidRegex(string pattern)
@@ -546,7 +596,7 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
             if (current.Request.Url.ToString() != new UriBuilder(finalUrl) { Port = -1 }.Uri.ToString())
             {
                 //redirect the request to a request that applies all site level redirect transformations
-                this.Redirect301(current.Response, portlessFinalUrl);
+                this.Redirect301(current, portlessFinalUrl);
             }
         }
 

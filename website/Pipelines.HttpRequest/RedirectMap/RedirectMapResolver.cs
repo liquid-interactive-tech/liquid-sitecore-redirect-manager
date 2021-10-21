@@ -50,11 +50,11 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.HttpRequest
                 string targetUrl = this.GetTargetUrl(resolvedMapping, requestedPath);
                 if (resolvedMapping.RedirectType == RedirectType.Redirect301)
                 {
-                    this.Redirect301(HttpContext.Current.Response, targetUrl);
+                    this.Redirect301(HttpContext.Current, targetUrl);
                 }
                 else if (resolvedMapping.RedirectType == RedirectType.Redirect302)
                 {
-                    HttpContext.Current.Response.Redirect(targetUrl, true);
+                    this.Redirect302(HttpContext.Current, targetUrl);
                 }
                 else if (resolvedMapping.RedirectType == RedirectType.ServerTransfer)
                 {
@@ -62,7 +62,7 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.HttpRequest
                 }
                 else
                 {
-                    HttpContext.Current.Response.Redirect(targetUrl, true);
+                    this.Redirect302(HttpContext.Current, targetUrl);
                 }
             }
         }
