@@ -51,11 +51,11 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.HttpRequest
 
                     if (resolvedMapping.RedirectType == RedirectType.Redirect301)
                     {
-                        this.Redirect301(HttpContext.Current.Response, resolvedMapping.Target);
+                        this.Redirect301(HttpContext.Current, resolvedMapping.Target);
                     }
                     else if (resolvedMapping.RedirectType == RedirectType.Redirect302)
                     {
-                        HttpContext.Current.Response.Redirect(resolvedMapping.Target, true);
+                        this.Redirect302(HttpContext.Current, resolvedMapping.Target);
                     }
                     else if (resolvedMapping.RedirectType == RedirectType.ServerTransfer)
                     {
@@ -64,7 +64,7 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.HttpRequest
                     //default to 302
                     else
                     {
-                        HttpContext.Current.Response.Redirect(resolvedMapping.Target, true);
+                        this.Redirect302(HttpContext.Current, resolvedMapping.Target);
                     }
 
                     args.AbortPipeline();
