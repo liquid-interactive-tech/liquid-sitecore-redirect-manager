@@ -366,7 +366,6 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
                         if (IsFromCurrentSite(redirectLinkField.TargetItem))
                         {
                             redirectUrl = LinkManager.GetItemUrl(redirectLinkField.TargetItem, urlOptions);
-                            Sitecore.Diagnostics.Log.Info($"Is from current site: {redirectUrl}.", this);
                         }
                         else
                         {
