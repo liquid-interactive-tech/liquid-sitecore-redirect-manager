@@ -287,45 +287,37 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
             return redirectQueryString;
         }
 
-        protected virtual void GetPreservedQueryString(Redirect resolvedMapping)
+        protected virtual string GetTargetUrlWithPreservedQueryString(Redirect resolvedMapping)
         {
-            // Prevent query string from being repeatedly (re)appended
-            resolvedMapping.Target = Regex.Split(resolvedMapping.Target, @"[\?\#]")[0];
-            if (resolvedMapping.PreserveQueryString && Context.Request.QueryString.Count > 0)
+            var targetUrl = resolvedMapping.Target;
+            if (!resolvedMapping.PreserveQueryString || Context.Request.QueryString.Count <= 0)
             {
-                var sourceQueryStringList = new List<string>();
-
-                //append all source parameters to list
-                foreach (String key in Context.Request.QueryString)
-                {
-                    string parameter = key;
-
-                    if (!String.IsNullOrWhiteSpace(Sitecore.Context.Request.QueryString[key]))
-                    {
-                        parameter = key + "=" + Sitecore.Context.Request.QueryString[key];
-                    }
-
-                    sourceQueryStringList.Add(parameter);
-                }
-
-                if (resolvedMapping.RedirectItem.Fields[Constants.TargetFieldName] != null)
-                {
-                    LinkField lf = resolvedMapping.RedirectItem.Fields[Constants.TargetFieldName];
-
-                    if (lf != null && !String.IsNullOrWhiteSpace(lf.QueryString))
-                    {
-                        resolvedMapping.Target = string.Concat(resolvedMapping.Target, StringUtil.EnsurePrefix('?', lf.QueryString), string.Concat("&", String.Join("&", sourceQueryStringList)));
-                    }
-                    else
-                    {
-                        resolvedMapping.Target = string.Concat(resolvedMapping.Target, string.Concat("?", String.Join("&", sourceQueryStringList)));
-                    }
-                }
-                else
-                {
-                    resolvedMapping.Target = string.Concat(resolvedMapping.Target, string.Concat("?", String.Join("&", sourceQueryStringList)));
-                }
+                return targetUrl;
             }
+
+            var sourceQueryStringList = new List<string>();
+
+            // Append all source parameters to list
+            foreach (string key in Context.Request.QueryString)
+            {
+                var parameter = key;
+                if (!string.IsNullOrWhiteSpace(Context.Request.QueryString[key]))
+                {
+                    parameter = key + "=" + HttpUtility.UrlEncode(Context.Request.QueryString[key]);
+                }
+
+                sourceQueryStringList.Add(parameter);
+            }
+
+            var targetUrlParts = targetUrl.Split('#');
+            var targetUrlNoAnchor = targetUrlParts[0];
+            targetUrl = string.Concat(targetUrlNoAnchor, string.Concat(targetUrlNoAnchor.IndexOf('?') >= 0 ? "&" : "?", string.Join("&", sourceQueryStringList)));
+            if (targetUrlParts.Length > 1)
+            {
+                targetUrl = $"{targetUrl}#{targetUrlParts[1]}";
+            }
+
+            return targetUrl;
         }
 
         protected virtual string GetRedirectUrl(Item redirectItem)
@@ -376,11 +368,12 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
                             }
                         }
 
-                        //getitemurl appears to produce double trailing slashes for cross site links, clean that up
+                        // GetItemUrl appears to produce double trailing slashes for cross-site links: clean that up
                         redirectUrl = new UriBuilder(redirectUrl)
                         {
                             Path = new Uri(redirectUrl).PathAndQuery.Replace("//", "/"),
-                            Query = redirectLinkField.QueryString
+                            Query = redirectLinkField.QueryString.TrimStart('?'),
+                            Fragment = redirectLinkField.Anchor.TrimStart('#')
                         }.Uri.AbsoluteUri;
                     }
                     else if (redirectLinkField.IsMediaLink)
@@ -455,7 +448,7 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
             context.Response.Flush();
 
             // Complete the request rather than ending the response to avoid System.Threading.ThreadAbortException on redirecting
-            HttpContext.Current.ApplicationInstance.CompleteRequest();
+            context.ApplicationInstance.CompleteRequest();
         }
         
         protected virtual void Redirect302(HttpContext context, string url)
