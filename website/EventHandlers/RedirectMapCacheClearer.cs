@@ -18,7 +18,6 @@ namespace LiquidSC.Foundation.RedirectManager.EventHandlers
         {
             Assert.ArgumentNotNull(sender, "sender");
             Assert.ArgumentNotNull(args, "args");
-            Log.Info("RedirectMapCacheClearer clearer triggered by event: " + ((Sitecore.Events.SitecoreEventArgs)args).EventName, this);
             Log.Info("RedirectMapCacheClearer clearing redirect map cache.", this);
             RedirectsRepository.Reset();
             Log.Info("RedirectMapCacheClearer done.", this);
