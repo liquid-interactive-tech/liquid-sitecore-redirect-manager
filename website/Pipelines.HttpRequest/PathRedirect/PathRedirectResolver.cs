@@ -48,25 +48,24 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.HttpRequest
             {
                 if (!resolvedMapping.Target.IsNullOrEmpty())
                 {
-                    //if we are preserving the incoming query string, append it now
-                    GetPreservedQueryString(resolvedMapping);
-
+                    // If we are preserving the incoming query string, append it now
+                    var targetUrl = this.GetTargetUrlWithPreservedQueryString(resolvedMapping);
                     if (resolvedMapping.RedirectType == RedirectType.Redirect301)
                     {
-                        this.Redirect301(HttpContext.Current, resolvedMapping.Target);
+                        this.Redirect301(HttpContext.Current, targetUrl);
                     }
                     else if (resolvedMapping.RedirectType == RedirectType.Redirect302)
                     {
-                        this.Redirect302(HttpContext.Current, resolvedMapping.Target);
+                        this.Redirect302(HttpContext.Current, targetUrl);
                     }
                     else if (resolvedMapping.RedirectType == RedirectType.ServerTransfer)
                     {
-                        HttpContext.Current.Server.TransferRequest(resolvedMapping.Target);
+                        HttpContext.Current.Server.TransferRequest(targetUrl);
                     }
-                    //default to 302
                     else
                     {
-                        this.Redirect302(HttpContext.Current, resolvedMapping.Target);
+                        // Default to 302
+                        this.Redirect302(HttpContext.Current, targetUrl);
                     }
 
                     args.AbortPipeline();
