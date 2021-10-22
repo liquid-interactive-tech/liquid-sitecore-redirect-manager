@@ -448,7 +448,7 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
             context.Response.Flush();
 
             // Complete the request rather than ending the response to avoid System.Threading.ThreadAbortException on redirecting
-            HttpContext.Current.ApplicationInstance.CompleteRequest();
+            context.ApplicationInstance.CompleteRequest();
         }
         
         protected virtual void Redirect302(HttpContext context, string url)
