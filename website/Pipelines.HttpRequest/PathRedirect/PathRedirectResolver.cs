@@ -2,6 +2,7 @@ using Sitecore.Data.Items;
 using LiquidSC.Foundation.RedirectManager.Extensions;
 using LiquidSC.Foundation.RedirectManager.Pipelines.Base;
 using Sitecore.Pipelines.HttpRequest;
+using Sitecore.SecurityModel;
 using Sitecore.StringExtensions;
 using System;
 using System.Collections.Generic;
@@ -127,8 +128,12 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.HttpRequest
                         //get the source raw value
                         var source = this.GetSourceFieldValue(redirectItem);
 
-                        //get the resolved target url
-                        var targetUrl = this.GetRedirectUrl(redirectItem);
+                        string targetUrl;
+                        using (new SecurityDisabler())
+                        {
+                            // Get the resolved target URL
+                            targetUrl = this.GetRedirectUrl(redirectItem);
+                        }
 
                         if (!string.IsNullOrWhiteSpace(targetUrl)
                             && !string.IsNullOrWhiteSpace(source)
