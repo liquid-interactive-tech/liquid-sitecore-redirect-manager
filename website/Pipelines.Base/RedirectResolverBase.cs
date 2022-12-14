@@ -9,6 +9,8 @@ using Sitecore.Links.UrlBuilders;
 #endif
 using Sitecore.Pipelines.HttpRequest;
 using Sitecore.Resources.Media;
+using Sitecore.Sites;
+using Sitecore.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -285,43 +287,37 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
             return redirectQueryString;
         }
 
-        protected virtual void GetPreservedQueryString(Redirect resolvedMapping)
+        protected virtual string GetTargetUrlWithPreservedQueryString(Redirect resolvedMapping)
         {
-            if (resolvedMapping.PreserveQueryString && Context.Request.QueryString.Count > 0)
+            var targetUrl = resolvedMapping.Target;
+            if (!resolvedMapping.PreserveQueryString || Context.Request.QueryString.Count <= 0)
             {
-                var sourceQueryStringList = new List<string>();
-
-                //append all source parameters to list
-                foreach (String key in Context.Request.QueryString)
-                {
-                    string parameter = key;
-
-                    if (!String.IsNullOrWhiteSpace(Sitecore.Context.Request.QueryString[key]))
-                    {
-                        parameter = key + "=" + Sitecore.Context.Request.QueryString[key];
-                    }
-
-                    sourceQueryStringList.Add(parameter);
-                }
-
-                if (resolvedMapping.RedirectItem.Fields[Constants.TargetFieldName] != null)
-                {
-                    LinkField lf = resolvedMapping.RedirectItem.Fields[Constants.TargetFieldName];
-
-                    if (lf != null && !String.IsNullOrWhiteSpace(lf.QueryString))
-                    {
-                        resolvedMapping.Target = string.Concat(resolvedMapping.Target, StringUtil.EnsurePrefix('?', lf.QueryString), string.Concat("&", String.Join("&", sourceQueryStringList)));
-                    }
-                    else
-                    {
-                        resolvedMapping.Target = string.Concat(resolvedMapping.Target, string.Concat("?", String.Join("&", sourceQueryStringList)));
-                    }
-                }
-                else
-                {
-                    resolvedMapping.Target = string.Concat(resolvedMapping.Target, string.Concat("?", String.Join("&", sourceQueryStringList)));
-                }
+                return targetUrl;
             }
+
+            var sourceQueryStringList = new List<string>();
+
+            // Append all source parameters to list
+            foreach (string key in Context.Request.QueryString)
+            {
+                var parameter = key;
+                if (!string.IsNullOrWhiteSpace(Context.Request.QueryString[key]))
+                {
+                    parameter = key + "=" + HttpUtility.UrlEncode(Context.Request.QueryString[key]);
+                }
+
+                sourceQueryStringList.Add(parameter);
+            }
+
+            var targetUrlParts = targetUrl.Split('#');
+            var targetUrlNoAnchor = targetUrlParts[0];
+            targetUrl = string.Concat(targetUrlNoAnchor, string.Concat(targetUrlNoAnchor.IndexOf('?') >= 0 ? "&" : "?", string.Join("&", sourceQueryStringList)));
+            if (targetUrlParts.Length > 1)
+            {
+                targetUrl = $"{targetUrl}#{targetUrlParts[1]}";
+            }
+
+            return targetUrl;
         }
 
         protected virtual string GetRedirectUrl(Item redirectItem)
@@ -341,7 +337,7 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
                         var urlOptions = LinkManager.GetDefaultUrlOptions();
 #endif
                  
-                        //potential alternative appaorach reflection based approach kept for study and reference
+                        //potential alternative approach reflection based approach kept for study and reference
                         //to avoid having to create multiple configurations and use preprocessor directives to determine which class type to use, instead we check if the assembly exists as an all-in-one solution
                         //performance impact of this is unknown
                         //9.3
@@ -358,13 +354,26 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
                         urlOptions.AlwaysIncludeServerUrl = true;
                         urlOptions.SiteResolving = true;
 
-                        redirectUrl = LinkManager.GetItemUrl(redirectLinkField.TargetItem, urlOptions);
+                        // Switch to relevant site to resolve target link, if needed
+                        if (IsFromCurrentSite(redirectLinkField.TargetItem))
+                        {
+                            redirectUrl = LinkManager.GetItemUrl(redirectLinkField.TargetItem, urlOptions);
+                        }
+                        else
+                        {
+                            var website = GetSiteContext(redirectLinkField.TargetItem);
+                            using (new SiteContextSwitcher(website))
+                            {
+                                redirectUrl = LinkManager.GetItemUrl(redirectLinkField.TargetItem, urlOptions);
+                            }
+                        }
 
-                        //getitemurl appears to produce double trailing slashes for cross site links, clean that up
+                        // GetItemUrl appears to produce double trailing slashes for cross-site links: clean that up
                         redirectUrl = new UriBuilder(redirectUrl)
                         {
-                            Path = new Uri(redirectUrl).PathAndQuery.Replace("//", "/"),
-                            Query = redirectLinkField.QueryString
+                            Path = this.GetPathAndQuery(redirectUrl).Replace("//", "/"),
+                            Query = redirectLinkField.QueryString.TrimStart('?'),
+                            Fragment = redirectLinkField.Anchor.TrimStart('#')
                         }.Uri.AbsoluteUri;
                     }
                     else if (redirectLinkField.IsMediaLink)
@@ -389,32 +398,70 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
             return redirectUrl;
         }
 
-        protected virtual void Redirect301(HttpResponse response, string url)
+        protected string GetPathAndQuery(string redirectUrl)
+        {
+            return new Uri(redirectUrl).PathAndQuery;
+        }
+
+        private static bool IsFromCurrentSite(Item item)
+        {
+            return item.Paths.FullPath.StartsWith(Context.Site.StartPath, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static SiteContext GetSiteContext(Item item)
+        {
+            var site = GetSites().LastOrDefault(s => item.Paths.FullPath.ToLower().StartsWith(s.Key.ToLower()));
+            return site.Value;
+        }
+
+        private static IEnumerable<KeyValuePair<string, SiteContext>> GetSites()
+        {
+            return SiteManager.GetSites()
+                .Where(
+                    s =>
+                        !string.IsNullOrEmpty(s.Properties["rootPath"]) &&
+                        !string.IsNullOrEmpty(s.Properties["startItem"])).Select(
+                    d => new KeyValuePair<string, SiteContext>(
+                        $"{d.Properties["rootPath"]}{d.Properties["startItem"]}",
+                        new SiteContext(new SiteInfo(d.Properties)))).ToList();
+        }
+
+        protected virtual void Redirect301(HttpContext context, string url)
         {
             HttpCookieCollection httpCookieCollection = new HttpCookieCollection();
-            for (int i = 0; i < response.Cookies.Count; i++)
+            for (int i = 0; i < context.Response.Cookies.Count; i++)
             {
-                HttpCookie item = response.Cookies[i];
+                HttpCookie item = context.Response.Cookies[i];
                 if (item != null)
                 {
                     httpCookieCollection.Add(item);
                 }
             }
-            response.Clear();
+            context.Response.Clear();
             for (int j = 0; j < httpCookieCollection.Count; j++)
             {
                 HttpCookie httpCookie = httpCookieCollection[j];
                 if (httpCookie != null)
                 {
-                    response.Cookies.Add(httpCookie);
+                    context.Response.Cookies.Add(httpCookie);
                 }
             }
 
-            response.Status = "301 Moved Permanently";
-            response.StatusCode = (int)HttpStatusCode.MovedPermanently;
-            response.AppendHeader("Location", url);
-            response.Flush();
-            response.End();
+            context.Response.Status = "301 Moved Permanently";
+            context.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
+            context.Response.AppendHeader("Location", url);
+            context.Response.Flush();
+
+            // Complete the request rather than ending the response to avoid System.Threading.ThreadAbortException on redirecting
+            context.ApplicationInstance.CompleteRequest();
+        }
+        
+        protected virtual void Redirect302(HttpContext context, string url)
+        {
+            context.Response.Redirect(url, false);
+
+            // Complete the request rather than ending the response to avoid System.Threading.ThreadAbortException on redirecting
+            context.ApplicationInstance.CompleteRequest();
         }
 
         protected static bool IsValidRegex(string pattern)
@@ -546,7 +593,7 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.Base
             if (current.Request.Url.ToString() != new UriBuilder(finalUrl) { Port = -1 }.Uri.ToString())
             {
                 //redirect the request to a request that applies all site level redirect transformations
-                this.Redirect301(current.Response, portlessFinalUrl);
+                this.Redirect301(current, portlessFinalUrl);
             }
         }
 

@@ -2,6 +2,7 @@ using Sitecore.Data.Items;
 using LiquidSC.Foundation.RedirectManager.Extensions;
 using LiquidSC.Foundation.RedirectManager.Pipelines.Base;
 using Sitecore.Pipelines.HttpRequest;
+using Sitecore.SecurityModel;
 using Sitecore.StringExtensions;
 using System;
 using System.Collections.Generic;
@@ -48,25 +49,24 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.HttpRequest
             {
                 if (!resolvedMapping.Target.IsNullOrEmpty())
                 {
-                    //if we are preserving the incoming query string, append it now
-                    GetPreservedQueryString(resolvedMapping);
-
+                    // If we are preserving the incoming query string, append it now
+                    var targetUrl = this.GetTargetUrlWithPreservedQueryString(resolvedMapping);
                     if (resolvedMapping.RedirectType == RedirectType.Redirect301)
                     {
-                        this.Redirect301(HttpContext.Current.Response, resolvedMapping.Target);
+                        this.Redirect301(HttpContext.Current, targetUrl);
                     }
                     else if (resolvedMapping.RedirectType == RedirectType.Redirect302)
                     {
-                        HttpContext.Current.Response.Redirect(resolvedMapping.Target, true);
+                        this.Redirect302(HttpContext.Current, targetUrl);
                     }
                     else if (resolvedMapping.RedirectType == RedirectType.ServerTransfer)
                     {
-                        HttpContext.Current.Server.TransferRequest(resolvedMapping.Target);
+                        HttpContext.Current.Server.TransferRequest(this.GetPathAndQuery(targetUrl));
                     }
-                    //default to 302
                     else
                     {
-                        HttpContext.Current.Response.Redirect(resolvedMapping.Target, true);
+                        // Default to 302
+                        this.Redirect302(HttpContext.Current, targetUrl);
                     }
 
                     args.AbortPipeline();
@@ -128,8 +128,12 @@ namespace LiquidSC.Foundation.RedirectManager.Pipelines.HttpRequest
                         //get the source raw value
                         var source = this.GetSourceFieldValue(redirectItem);
 
-                        //get the resolved target url
-                        var targetUrl = this.GetRedirectUrl(redirectItem);
+                        string targetUrl;
+                        using (new SecurityDisabler())
+                        {
+                            // Get the resolved target URL
+                            targetUrl = this.GetRedirectUrl(redirectItem);
+                        }
 
                         if (!string.IsNullOrWhiteSpace(targetUrl)
                             && !string.IsNullOrWhiteSpace(source)
