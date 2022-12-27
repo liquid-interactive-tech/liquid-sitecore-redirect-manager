@@ -1,3 +1,8 @@
+# ** PROJECT IS INACTIVE **
+Liquid Interactive does not have any plans to continune to maintain this project at this time. We encourage the usage and exploration of existing and future Github Forks of this project to continue its development moving forward. 
+
+Need a custom Sitecore module and/or Website to be professionally architected/designed/developed? Drop us your request at [hello@liquidint.com](mailto:hello@liquidint.com)!
+
 # Liquid Sitecore URL Redirect Manager
 
 The URL Redirect Manager is a Sitecore plug-in that reduces wasted time and resources spent managing and troubleshooting URL redirects. Editors can now gain a stronger sense of control and ownership of their website development and management.
